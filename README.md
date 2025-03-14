@@ -1,6 +1,6 @@
 # Todo API
 
-A simple and efficient RESTful API for managing tasks, built with Rust. This project demonstrates core backend development skills, including CRUD operations, user authentication with JWT, and database integration using SQLite. It’s a great example of a beginner-friendly yet robust backend application suitable for a portfolio.
+A simple and efficient RESTful API for managing tasks, built with Rust. This project demonstrates core backend development skills, including CRUD operations, user authentication with JWT, and database integration using SQLite.
 
 ## Features
 - User registration and login with secure password hashing (Argon2).
