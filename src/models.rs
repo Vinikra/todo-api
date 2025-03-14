@@ -7,7 +7,7 @@ pub struct Task {
     pub user_id: i32,
     pub title: String,
     pub description: Option<String>,
-    pub status: String, // "pending" ou "completed"
+    pub status: String,
     pub due_date: Option<NaiveDateTime>,
 }
 
@@ -22,4 +22,12 @@ pub struct User {
 pub struct NewUser {
     pub username: String,
     pub password_hash: String,
+}
+
+#[derive(Serialize, Deserialize)]
+pub struct NewTask {
+    pub title: String,
+    pub description: Option<String>,
+    pub status: String,
+    pub due_date: Option<NaiveDateTime>,
 }

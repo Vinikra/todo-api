@@ -1,5 +1,5 @@
-use axum::{routing::{get, post}, Router, extract::State, Json};
-use crate::{db::{create_task, get_tasks}, models::{Task, User, NewUser}, auth};
+use axum::{routing::post, Router, extract::State, Json};
+use crate::{db::{create_task, get_tasks}, models::{Task, NewTask}, auth};
 
 pub fn app(pool: sqlx::SqlitePool) -> Router {
     Router::new()
@@ -11,11 +11,18 @@ pub fn app(pool: sqlx::SqlitePool) -> Router {
 pub async fn create_task_handler(
     State(pool): State<sqlx::SqlitePool>,
     axum::extract::Extension(user_id): axum::extract::Extension<String>,
-    Json(mut task): Json<Task>,
+    Json(new_task): Json<NewTask>,
 ) -> Result<Json<Task>, axum::http::StatusCode> {
-    task.user_id = user_id.parse().unwrap();
-    let new_task = create_task(&pool, task).await.map_err(|_| axum::http::StatusCode::INTERNAL_SERVER_ERROR)?;
-    Ok(Json(new_task))
+    let task = Task {
+        id: 0, // Valor temporário, será preenchido pelo banco
+        user_id: user_id.parse().unwrap(),
+        title: new_task.title,
+        description: new_task.description,
+        status: new_task.status,
+        due_date: new_task.due_date,
+    };
+    let created_task = create_task(&pool, task).await.map_err(|_| axum::http::StatusCode::INTERNAL_SERVER_ERROR)?;
+    Ok(Json(created_task))
 }
 
 pub async fn list_tasks_handler(
@@ -44,7 +51,7 @@ pub async fn register_handler(
 
 pub async fn login_handler(
     State(pool): State<sqlx::SqlitePool>,
-    Json(user): Json<crate::models::NewUser>, // Mudança aqui
+    Json(user): Json<crate::models::NewUser>,
 ) -> Result<Json<String>, axum::http::StatusCode> {
     let db_user = sqlx::query_as::<_, crate::models::User>("SELECT * FROM users WHERE username = ?")
         .bind(&user.username)
