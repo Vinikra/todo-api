@@ -44,7 +44,7 @@ pub async fn register_handler(
 
 pub async fn login_handler(
     State(pool): State<sqlx::SqlitePool>,
-    Json(user): Json<crate::models::User>,
+    Json(user): Json<crate::models::NewUser>, // Mudança aqui
 ) -> Result<Json<String>, axum::http::StatusCode> {
     let db_user = sqlx::query_as::<_, crate::models::User>("SELECT * FROM users WHERE username = ?")
         .bind(&user.username)
