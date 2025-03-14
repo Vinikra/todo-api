@@ -2,7 +2,7 @@ use jsonwebtoken::{encode, decode, Header, Validation, EncodingKey, DecodingKey}
 use argon2::{Argon2, PasswordHash, PasswordHasher, PasswordVerifier, password_hash::SaltString};
 use rand::rngs::OsRng;
 
-pun struct Claims {
+pub struct Claims {
     pub sub: String,
     pub exp: usize,
 }
