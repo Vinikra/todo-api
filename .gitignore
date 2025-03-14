@@ -1,0 +1,12 @@
+# Rust-specific ignores
+/target/
+/**/*.rs.bk
+
+# SQLite database file
+tasks.db
+
+# Optional: Ignore editor/IDE files
+*.swp
+*.swo
+.vscode/
+.idea/
