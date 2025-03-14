@@ -1,1 +1,1 @@
-/home/vinicius/Documents/repo/todo-api/target/debug/todo-api: /home/vinicius/Documents/repo/todo-api/src/main.rs
+/home/vinicius/Documents/repo/todo-api/target/debug/todo-api: /home/vinicius/Documents/repo/todo-api/src/auth.rs /home/vinicius/Documents/repo/todo-api/src/db.rs /home/vinicius/Documents/repo/todo-api/src/main.rs /home/vinicius/Documents/repo/todo-api/src/middleware.rs /home/vinicius/Documents/repo/todo-api/src/models.rs /home/vinicius/Documents/repo/todo-api/src/routes.rs

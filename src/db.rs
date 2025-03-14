@@ -1,4 +1,5 @@
 use sqlx::{SqlitePool, migrate::MigrateDatabase};
+use crate::models::Task;
 
 pub async fn init_pool() -> SqlitePool {
     let db_url = "sqlite:// tasks.db";
@@ -45,7 +46,7 @@ pub async fn create_task(pool: &SqlitePool, task: Task) -> Result<Task, sqlx::Er
     Ok(result)
 }
 
-pub async fn get_tasks(pool: &SqlitePool, user_id: i32) -> Result<Vec<Task>, sqkx::Error> {
+pub async fn get_tasks(pool: &SqlitePool, user_id: i32) -> Result<Vec<Task>, sqlx::Error> {
     let tasks = sqlx::query_as::<_, Task>("SELECT * FROM tasks WHERE user_id = ?")
         .bind(user_id)
         .fetch_all(pool)

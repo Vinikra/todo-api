@@ -1,5 +1,5 @@
 use serde::{Serialize, Deserialize};
-use chrono::NaiveDataTime;
+use chrono::NaiveDateTime;
 
 #[derive(Serialize, Deserialize, sqlx::FromRow, Clone)]
 pub struct Task{

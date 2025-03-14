@@ -1,5 +1,5 @@
 use axum::{routing::{get, post}, Router, extract::State, Json};
-use crate::{db::{create_task, get_task}, models::Task, auth};
+use crate::{db::{create_task, get_tasks}, models::Task, auth};
 
 pub fn app(pool: sqlx::SqlitePool) -> Router {
     Router::new()

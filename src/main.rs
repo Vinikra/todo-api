@@ -4,7 +4,6 @@ mod db;
 mod auth;
 mod middleware;
 
-use axum::Router;
 
 #[tokio::main]
 async fn main() {
