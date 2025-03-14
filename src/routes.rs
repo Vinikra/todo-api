@@ -1,16 +1,14 @@
 use axum::{routing::{get, post}, Router, extract::State, Json};
-use crate::{db::{create_task, get_tasks}, models::Task, auth};
+use crate::{db::{create_task, get_tasks}, models::{Task, User, NewUser}, auth};
 
 pub fn app(pool: sqlx::SqlitePool) -> Router {
     Router::new()
-    .route("/tasks", post(create_task_handler))
-    .route("/tasks", get(list_tasks_handler))
-    .route("/register", post(register_handler))
-    .route("/login", post(login_handler))
-    .with_state(pool)
+        .route("/register", post(register_handler))
+        .route("/login", post(login_handler))
+        .with_state(pool)
 }
 
-async fn create_task_handler(
+pub async fn create_task_handler(
     State(pool): State<sqlx::SqlitePool>,
     axum::extract::Extension(user_id): axum::extract::Extension<String>,
     Json(mut task): Json<Task>,
@@ -20,7 +18,7 @@ async fn create_task_handler(
     Ok(Json(new_task))
 }
 
-async fn list_tasks_handler(
+pub async fn list_tasks_handler(
     State(pool): State<sqlx::SqlitePool>,
     axum::extract::Extension(user_id): axum::extract::Extension<String>,
 ) -> Result<Json<Vec<Task>>, axum::http::StatusCode> {
@@ -30,9 +28,9 @@ async fn list_tasks_handler(
     Ok(Json(tasks))
 }
 
-async fn register_handler(
+pub async fn register_handler(
     State(pool): State<sqlx::SqlitePool>,
-    Json(user): Json<crate::models::User>,
+    Json(user): Json<crate::models::NewUser>,
 ) -> Result<Json<String>, axum::http::StatusCode> {
     let password_hash = auth::hash_password(&user.password_hash);
     sqlx::query("INSERT INTO users (username, password_hash) VALUES (?, ?)")
@@ -44,7 +42,7 @@ async fn register_handler(
     Ok(Json("User registered".to_string()))
 }
 
-async fn login_handler(
+pub async fn login_handler(
     State(pool): State<sqlx::SqlitePool>,
     Json(user): Json<crate::models::User>,
 ) -> Result<Json<String>, axum::http::StatusCode> {
